@@ -15,75 +15,83 @@ async function sleep(seconds) {
   });
 }
 
-const { GCID_COOKIE_VALUE, GCESS_COOKIE_VALUE } = Constans;
+const {
+  GCID_COOKIE_VALUE,
+  GCESS_COOKIE_VALUE,
+} = Constans;
 
 // 获取所有文章 id 的接口， POST 请求
 // https://time.geekbang.org/serv/v1/column/articles
 
 /**
+ * 用于文字课程
  * 用于《算法与数据结构之美》课程 https://time.geekbang.org/column/article/39922
  */
 async function func1() {
-  const idArr = [
-    76207,
-    76468,
-    76827,
-    77142,
-    77457,
-    77830,
-    78175,
-    78449,
-    78795,
-    79159,
-    79433,
-    79871,
-    80388,
-    80850,
-    40681,
-    69607,
-    73786,
-    75197,
-    81997,
-    91541,
-    80456,
-    80457,
-    80458,
-    81008,
-    81186,
-    81218,
-    80459,
-    81230,
-    81263,
-    81835,
-    161115,
-    168882,
-    178378,
-    181421,
-    185686,
-    188898,
-  ];
+  const idArr = [113399,
+    113513,
+    113550,
+    116588,
+    117637,
+    118205,
+    118826,
+    119046,
+    120257,
+    126339,
+    127495,
+    128427,
+    129596,
+    131233,
+    131887,
+    132931,
+    134456,
+    135127,
+    135624,
+    136895,
+    137827,
+    138844,
+    140140,
+    140703,
+    141842,
+    143889,
+    144569,
+    144983,
+    145546,
+    147501,
+    148546,
+    150159,
+    151370,
+    152807,
+    154110,
+    155183,
+    156181,
+    157406,
+    211563,
+    165897,
+    169468,
+    174254,
+    177070,
+    179428,
+    180213];
 
   const browser = await puppeteer.launch({
     headless: false,
     executablePath: path.resolve(__dirname, '../../local_node_module/Chromium.app/Contents/MacOS/Chromium'),
   });
   const page = await browser.newPage();
-  await page.setCookie(
-    {
-      name: 'GCESS',
-      value: GCESS_COOKIE_VALUE,
-      domain: '.geekbang.org',
-      path: '/',
-      httpOnly: true,
-    },
-    {
-      name: 'GCID',
-      value: GCID_COOKIE_VALUE,
-      domain: '.geekbang.org',
-      path: '/',
-      httpOnly: true,
-    },
-  );
+  await page.setCookie({
+    name: 'GCESS',
+    value: GCESS_COOKIE_VALUE,
+    domain: '.geekbang.org',
+    path: '/',
+    httpOnly: true,
+  }, {
+    name: 'GCID',
+    value: GCID_COOKIE_VALUE,
+    domain: '.geekbang.org',
+    path: '/',
+    httpOnly: true,
+  });
   await page.setViewport({
     width: 1200,
     height: 2000,
@@ -96,10 +104,12 @@ async function func1() {
       waitUntil: 'networkidle2',
     });
 
-    await page.waitFor('.ibY_sXau_0');
+    await page.waitFor('.simplebar-content-wrapper');
     await page.evaluate(() => new Promise((resolve) => {
-      const slide = document.querySelector('.ibY_sXau_0');
+      const slide = document.querySelectorAll('.simplebar-content-wrapper')[1];
+      console.log(slide);
       let x = 0;
+
       function move() {
         setTimeout(() => {
           slide.scrollTop = x;
@@ -126,6 +136,7 @@ async function func1() {
 }
 
 /**
+ * 用于视频课程
  * 用于《TypeScript开发实战》, https://time.geekbang.org/course/intro/211
  */
 async function func2() {
@@ -191,7 +202,9 @@ async function func2() {
     // FIXME: 由于 chromium 打开页面不能进行自动播放，不确定是 chromium 问题还是其他原因
     // 暂时使用本地浏览器打开页面
     const url = `https://time.geekbang.org/course/detail/211-${id}`;
-    await open(url, { app: ['google chrome', '--incognito'] });
+    await open(url, {
+      app: ['google chrome', '--incognito'],
+    });
     await sleep(10);
   }
   console.log('finish');
@@ -199,6 +212,6 @@ async function func2() {
 
 
 (async () => {
-  // await func1();
-  await func2();
+  await func1();
+  // await func2();
 })();
