@@ -210,7 +210,6 @@ async function func2() {
   console.log('finish');
 }
 
-
 (async () => {
   await func1();
   // await func2();

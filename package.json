@@ -20,7 +20,7 @@
   "homepage": "https://github.com/yes1am/automator#readme",
   "dependencies": {
     "open": "^7.0.2",
-    "puppeteer-core": "^2.1.1"
+    "puppeteer-core": "^19.6.3"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
